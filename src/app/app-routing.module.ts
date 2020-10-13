@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { SearchpageComponent } from './pages/searchpage/searchpage.component';
+import { PeliculapageComponent } from './pages/peliculapage/peliculapage.component';
 
 
 
@@ -13,7 +14,7 @@ const rutas:Routes = [
   },
   {
     path: 'movie/:id',
-    component: HomepageComponent
+    component: PeliculapageComponent
   },
   {
     path: 'search/:texto',
