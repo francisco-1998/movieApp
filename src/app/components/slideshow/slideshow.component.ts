@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import Swiper from 'swiper';
 import { Movie } from '../../models/cartelera-response';
 
@@ -29,7 +29,7 @@ export class SlideshowComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log(this.movies);
+
   }
 
 }
