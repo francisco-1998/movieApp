@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/cartelera-response';
 
@@ -10,6 +10,20 @@ import { Movie } from '../../models/cartelera-response';
 export class HomepageComponent implements OnInit {
 
   public movies: Movie[] = [];
+  public moviesSlide: Movie[] = [];
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(){
+    const posiciondelscroll = (document.documentElement.scrollTop || document.body.scrollTop) + 1000;
+    const posicionmaximadelscroll = (document.documentElement.scrollHeight || document.body.scrollHeight);
+
+    if(posiciondelscroll > posicionmaximadelscroll ){
+      this.peliculaService.getCartelera().subscribe(resp=>{
+        this.movies.push(...resp.results);
+      })
+    }
+    // console.log({posiciondelscroll,posicionmaximadelscroll});
+  }
 
   constructor(private peliculaService: MovieService) { }
 
@@ -20,6 +34,7 @@ export class HomepageComponent implements OnInit {
   getApiMovie() {
     this.peliculaService.getCartelera().subscribe(data => {
       this.movies = data.results;
+      this.moviesSlide=data.results;
     })
   }
 
