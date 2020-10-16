@@ -37,6 +37,10 @@ export class MovieService {
     )
   }
 
+  resetHome(){
+    this.carteleraPage=1;
+  }
+
   buscarPeliculas(texto:string):Observable<Movie[]>{
       const parametros = {...this.params, page:'1',query:texto}
     return this.http.get<Cartelera>(`${this.url}/search/movie`,{params:parametros}).pipe(
