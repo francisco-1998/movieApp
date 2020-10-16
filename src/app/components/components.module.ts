@@ -15,7 +15,7 @@ import { PipesModule } from '../pipes/pipes.module';
     CommonModule,
     RouterModule,
     RatingModule,
-    PipesModule
+    PipesModule,
   ],
   exports:[
     NavbarComponent,

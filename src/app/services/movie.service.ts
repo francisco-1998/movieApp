@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap , map} from 'rxjs/operators';
 import { Cartelera } from '../models/cartelera-response';
+import { Movie } from 'src/app/models/cartelera-response';
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +29,18 @@ export class MovieService {
     }
     console.log('Cargando');
     this.cargando=true;
-    return this.http.get<Cartelera>(`${this.url}/movie/now_playing?`,{params:this.params}).pipe(
+    return this.http.get<Cartelera>(`${this.url}/movie/popular?`,{params:this.params}).pipe(
       tap(()=>{
         this.carteleraPage+=1;
         this.cargando = false;
       })
+    )
+  }
+
+  buscarPeliculas(texto:string):Observable<Movie[]>{
+      const parametros = {...this.params, page:'1',query:texto}
+    return this.http.get<Cartelera>(`${this.url}/search/movie`,{params:parametros}).pipe(
+      map(resp=>resp.results)
     )
   }
 }
