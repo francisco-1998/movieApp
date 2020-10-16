@@ -18,6 +18,7 @@ export class HomepageComponent implements OnInit {
     const posicionmaximadelscroll = (document.documentElement.scrollHeight || document.body.scrollHeight);
 
     if(posiciondelscroll > posicionmaximadelscroll ){
+      if(this.peliculaService.cargando){return;}
       this.peliculaService.getCartelera().subscribe(resp=>{
         this.movies.push(...resp.results);
       })
