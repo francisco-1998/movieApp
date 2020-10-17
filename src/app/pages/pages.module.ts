@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { HomepageComponent } from './homepage/homepage.component';
 import { PeliculapageComponent } from './peliculapage/peliculapage.component';
 import { SearchpageComponent } from './searchpage/searchpage.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { RatingModule } from 'ng-starrating';
 
 
 
@@ -11,7 +13,9 @@ import { SearchpageComponent } from './searchpage/searchpage.component';
   declarations: [HomepageComponent, PeliculapageComponent, SearchpageComponent],
   imports: [
     CommonModule,
-    ComponentsModule
+    ComponentsModule,
+    PipesModule,
+    RatingModule
   ]
 })
 export class PagesModule { }
