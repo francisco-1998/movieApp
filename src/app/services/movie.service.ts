@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable, of } from 'rxjs';
-import { tap , map} from 'rxjs/operators';
+import { tap , map, catchError} from 'rxjs/operators';
 import { Cartelera } from '../models/cartelera-response';
 import { Movie } from 'src/app/models/cartelera-response';
 import { MovieDetails } from '../models/movie.details';
+import { Creditos } from '../models/creditos';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,15 @@ export class MovieService {
   }
 
   getDetallePeliculas(id:String){
-    return this.http.get<MovieDetails>(`${this.url}/movie/${id}`, {params: this.params})
+    return this.http.get<MovieDetails>(`${this.url}/movie/${id}`, {params: this.params}).pipe(
+      catchError(err=>of(null))
+    )
+  }
+
+  getCreditosPeliculas(id:String){
+    return this.http.get<Creditos>(`${this.url}/movie/${id}/credits`, {params: this.params}).pipe(
+      map(resp=>resp.cast),
+      catchError(err=>of([])),
+    )
   }
 }
