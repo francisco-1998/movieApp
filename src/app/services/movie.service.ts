@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { tap , map} from 'rxjs/operators';
 import { Cartelera } from '../models/cartelera-response';
 import { Movie } from 'src/app/models/cartelera-response';
+import { MovieDetails } from '../models/movie.details';
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +47,9 @@ export class MovieService {
     return this.http.get<Cartelera>(`${this.url}/search/movie`,{params:parametros}).pipe(
       map(resp=>resp.results)
     )
+  }
+
+  getDetallePeliculas(id:String){
+    return this.http.get<MovieDetails>(`${this.url}/movie/${id}`, {params: this.params})
   }
 }
