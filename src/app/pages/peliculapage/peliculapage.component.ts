@@ -12,11 +12,11 @@ import { Cast } from '../../models/creditos';
 })
 export class PeliculapageComponent implements OnInit {
   public movie: MovieDetails;
-  public actores: Cast[];
+  public actores: Cast[] = [];
   constructor(private activatedRoute: ActivatedRoute,
-              private peliculaS: MovieService,
-              private location: Location,
-              private router:Router) { }
+    private peliculaS: MovieService,
+    private location: Location,
+    private router: Router) { }
 
   ngOnInit(): void {
     //Forma 2 uti cuando ne quieren mas argmentos
@@ -24,15 +24,15 @@ export class PeliculapageComponent implements OnInit {
     //Forma 1
     const id = this.activatedRoute.snapshot.params.id
     this.peliculaS.getDetallePeliculas(id).subscribe(resp => {
-      if(!resp){
+      if (!resp) {
         this.router.navigateByUrl('/home');
-        return ;
+        return;
       }
       this.movie = resp;
     });
 
     this.peliculaS.getCreditosPeliculas(id).subscribe(cast => {
-      this.actores=cast;
+      this.actores = cast.filter(actor => actor.profile_path !== null);
       console.log(this.actores);
     })
   }
