@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MovieDetails } from '../../models/movie.details';
 import { Location } from "@angular/common";
 import { Cast } from '../../models/creditos';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-peliculapage',
@@ -11,8 +12,10 @@ import { Cast } from '../../models/creditos';
   styleUrls: ['./peliculapage.component.css']
 })
 export class PeliculapageComponent implements OnInit {
+
   public movie: MovieDetails;
   public actores: Cast[] = [];
+
   constructor(private activatedRoute: ActivatedRoute,
     private peliculaS: MovieService,
     private location: Location,
@@ -23,18 +26,39 @@ export class PeliculapageComponent implements OnInit {
     // const { id } = this.activatedRoute.snapshot.params;
     //Forma 1
     const id = this.activatedRoute.snapshot.params.id
-    this.peliculaS.getDetallePeliculas(id).subscribe(resp => {
-      if (!resp) {
+
+    combineLatest([
+
+      this.peliculaS.getDetallePeliculas(id),
+      this.peliculaS.getCreditosPeliculas(id)
+
+    ]).subscribe(([pelicula, cast])=>{
+
+      // Procesado de las peliculas
+      if (!pelicula) {
         this.router.navigateByUrl('/home');
         return;
       }
-      this.movie = resp;
-    });
+      this.movie = pelicula;
 
-    this.peliculaS.getCreditosPeliculas(id).subscribe(cast => {
+      // Procesado de los actores
       this.actores = cast.filter(actor => actor.profile_path !== null);
-      console.log(this.actores);
+
     })
+
+
+    // this.peliculaS.getDetallePeliculas(id).subscribe(resp => {
+    //   if (!resp) {
+    //     this.router.navigateByUrl('/home');
+    //     return;
+    //   }
+    //   this.movie = resp;
+    // });
+
+    // this.peliculaS.getCreditosPeliculas(id).subscribe(cast => {
+    //   this.actores = cast.filter(actor => actor.profile_path !== null);
+    //   console.log(this.actores);
+    // })
   }
 
   regresar() {
